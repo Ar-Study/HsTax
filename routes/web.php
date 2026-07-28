@@ -14,7 +14,7 @@ use App\Http\Controllers\Jamaah\AssistanceApplicationController as JamaahAssista
 use App\Http\Controllers\Jamaah\ProfileController as JamaahProfileController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('hstax.index');
 });
 
 Route::middleware(['auth'])->group(function () {
