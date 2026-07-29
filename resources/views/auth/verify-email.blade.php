@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Verifikasi Email - MosqueCare')
+@section('title', 'Verifikasi Email - HS Tax Admin')
 
 @section('content')
 <div class="card border-0 shadow-sm">

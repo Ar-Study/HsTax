@@ -1,11 +1,19 @@
+<button class="sidebar-mobile-toggle" id="sidebarMobileToggle">
+    <i class="bi bi-list"></i>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <nav id="sidebar" class="sidebar">
+    {{-- Brand --}}
     <div class="sidebar-brand">
-        <div class="sidebar-brand-icon">
-            <i class="bi bi-building"></i>
+        <div class="sidebar-brand-icon">HT</div>
+        <div class="sidebar-brand-text">
+            HS Tax
+            <small>Admin Panel</small>
         </div>
-        <span class="sidebar-brand-text">{{ config('app.name', 'MosqueCare') }}</span>
     </div>
 
+    {{-- Navigation --}}
     <div class="sidebar-nav">
         <div class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
@@ -14,100 +22,97 @@
             </a>
         </div>
 
+        {{-- CMS --}}
         <div class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.jamaah.*') ? 'active' : '' }}" href="{{ route('admin.jamaah.index') }}">
-                <i class="bi bi-people"></i>
-                <span class="nav-text">Data Jamaah</span>
+            <a class="nav-link submenu-toggle {{ request()->routeIs('admin.cms.*') ? 'open' : '' }}" href="#"
+               onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-layout-text-window"></i>
+                <span class="nav-text">Halaman Depan</span>
             </a>
-        </div>
-
-        <div class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.donations.*') ? 'active' : '' }}" href="{{ route('admin.donations.index') }}">
-                <i class="bi bi-cash-stack"></i>
-                <span class="nav-text">Donasi</span>
-            </a>
-        </div>
-
-        <div class="nav-item">
-            <a class="nav-link submenu-toggle {{ request()->routeIs('admin.programs.*') || request()->routeIs('admin.reports.program') ? 'open' : '' }}" href="#">
-                <i class="bi bi-folder"></i>
-                <span class="nav-text">Program</span>
-            </a>
-            <div class="submenu {{ request()->routeIs('admin.programs.*') || request()->routeIs('admin.reports.program') ? 'open' : '' }}">
-                <a class="nav-link {{ request()->routeIs('admin.programs.*') && !request()->routeIs('admin.programs.budgets.*') ? 'active' : '' }}" href="{{ route('admin.programs.index') }}">
-                    <i class="bi bi-list-task"></i>
-                    <span class="nav-text">Program Sosial</span>
+            <div class="submenu {{ request()->routeIs('admin.cms.*') ? 'open' : '' }}">
+                <a class="nav-link {{ request()->routeIs('admin.cms.index') ? 'active' : '' }}" href="{{ route('admin.cms.index') }}">
+                    <i class="bi bi-dot"></i>
+                    <span class="nav-text">Overview</span>
                 </a>
-                <a class="nav-link {{ request()->routeIs('admin.reports.program') ? 'active' : '' }}" href="{{ route('admin.reports.program') }}">
-                    <i class="bi bi-file-text"></i>
-                    <span class="nav-text">Laporan Program</span>
+                <a class="nav-link {{ request()->routeIs('admin.cms.company') ? 'active' : '' }}" href="{{ route('admin.cms.company') }}">
+                    <i class="bi bi-dot"></i>
+                    <span class="nav-text">Profil Perusahaan</span>
+                </a>
+                <a class="nav-link {{ request()->routeIs('admin.cms.contact') ? 'active' : '' }}" href="{{ route('admin.cms.contact') }}">
+                    <i class="bi bi-dot"></i>
+                    <span class="nav-text">Kontak</span>
+                </a>
+                <a class="nav-link {{ request()->routeIs('admin.cms.social') ? 'active' : '' }}" href="{{ route('admin.cms.social') }}">
+                    <i class="bi bi-dot"></i>
+                    <span class="nav-text">Media Sosial</span>
+                </a>
+                <a class="nav-link {{ request()->routeIs('admin.cms.services') ? 'active' : '' }}" href="{{ route('admin.cms.services') }}">
+                    <i class="bi bi-dot"></i>
+                    <span class="nav-text">Layanan</span>
                 </a>
             </div>
         </div>
 
+        {{-- Packages --}}
         <div class="nav-item">
-            <a class="nav-link submenu-toggle {{ request()->routeIs('admin.applications.*') || request()->routeIs('admin.distributions.*') ? 'open' : '' }}" href="#">
-                <i class="bi bi-hand-thumbs-up"></i>
-                <span class="nav-text">Bantuan</span>
+            <a class="nav-link {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}" href="{{ route('admin.packages.index') }}">
+                <i class="bi bi-box-seam"></i>
+                <span class="nav-text">Paket</span>
             </a>
-            <div class="submenu {{ request()->routeIs('admin.applications.*') || request()->routeIs('admin.distributions.*') ? 'open' : '' }}">
-                <a class="nav-link {{ request()->routeIs('admin.applications.*') ? 'active' : '' }}" href="{{ route('admin.applications.index') }}">
-                    <i class="bi bi-pencil-square"></i>
-                    <span class="nav-text">Pengajuan</span>
-                </a>
-                <a class="nav-link {{ request()->routeIs('admin.distributions.*') ? 'active' : '' }}" href="{{ route('admin.distributions.index') }}">
-                    <i class="bi bi-box-seam"></i>
-                    <span class="nav-text">Distribusi</span>
-                </a>
-            </div>
         </div>
 
+        {{-- Testimonials --}}
         <div class="nav-item">
-            <a class="nav-link submenu-toggle {{ request()->routeIs('admin.reports.financial') || request()->routeIs('admin.reports.donation') || request()->routeIs('admin.reports.assistance') || request()->routeIs('admin.reports.index') ? 'open' : '' }}" href="#">
-                <i class="bi bi-file-earmark-bar-graph"></i>
-                <span class="nav-text">Laporan</span>
+            <a class="nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}" href="{{ route('admin.testimonials.index') }}">
+                <i class="bi bi-star"></i>
+                <span class="nav-text">Testimoni</span>
             </a>
-            <div class="submenu {{ request()->routeIs('admin.reports.financial') || request()->routeIs('admin.reports.donation') || request()->routeIs('admin.reports.assistance') || request()->routeIs('admin.reports.index') ? 'open' : '' }}">
-                <a class="nav-link {{ request()->routeIs('admin.reports.financial') ? 'active' : '' }}" href="{{ route('admin.reports.financial') }}">
-                    <i class="bi bi-wallet2"></i>
-                    <span class="nav-text">Keuangan</span>
-                </a>
-                <a class="nav-link {{ request()->routeIs('admin.reports.donation') ? 'active' : '' }}" href="{{ route('admin.reports.donation') }}">
-                    <i class="bi bi-graph-up"></i>
-                    <span class="nav-text">Donasi</span>
-                </a>
-                <a class="nav-link {{ request()->routeIs('admin.reports.assistance') ? 'active' : '' }}" href="{{ route('admin.reports.assistance') }}">
-                    <i class="bi bi-heart"></i>
-                    <span class="nav-text">Bantuan</span>
-                </a>
-            </div>
+        </div>
+
+        {{-- FAQs --}}
+        <div class="nav-item">
+            <a class="nav-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}" href="{{ route('admin.faqs.index') }}">
+                <i class="bi bi-question-circle"></i>
+                <span class="nav-text">FAQ</span>
+            </a>
+        </div>
+
+        {{-- News --}}
+        <div class="nav-item">
+            <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" href="{{ route('admin.news.index') }}">
+                <i class="bi bi-newspaper"></i>
+                <span class="nav-text">Berita</span>
+            </a>
+        </div>
+
+        {{-- Comments --}}
+        <div class="nav-item">
+            <a class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
+                <i class="bi bi-chat-dots"></i>
+                <span class="nav-text">Komentar</span>
+                @php $unread = \App\Models\Comment::where('is_approved', false)->count(); @endphp
+                @if($unread > 0)
+                    <span class="badge bg-warning text-dark ms-auto nav-text">{{ $unread }}</span>
+                @endif
+            </a>
         </div>
     </div>
 
+    {{-- Footer --}}
     <div class="sidebar-footer">
-        <div class="user-avatar">
-            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-        </div>
+        <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
         <div class="sidebar-footer-text">
             <div class="user-name">{{ Auth::user()->name }}</div>
-            <div class="user-email">{{ Auth::user()->email }}</div>
+            <div class="user-email">{{ Str::limit(Auth::user()->email, 24) }}</div>
         </div>
-        <a href="{{ route('logout') }}" class="ms-auto text-white-50 text-decoration-none" title="Logout"
+        <a href="{{ route('logout') }}" class="ms-auto text-white-50 text-decoration-none"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="bi bi-box-arrow-right"></i>
         </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-            @csrf
-        </form>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
     </div>
 </nav>
 
-<button id="sidebarToggle" class="sidebar-toggle" title="Toggle sidebar">
-    <i class="bi bi-chevron-left"></i>
+<button id="sidebarToggle" class="sidebar-toggle">
+    <i class="bi bi-chevron-left" id="toggleIcon"></i>
 </button>
-
-<button id="sidebarMobileToggle" class="sidebar-mobile-toggle" title="Menu">
-    <i class="bi bi-list"></i>
-</button>
-
-<div id="sidebarOverlay" class="sidebar-overlay"></div>

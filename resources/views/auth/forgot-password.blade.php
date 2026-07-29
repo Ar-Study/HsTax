@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Lupa Password - MosqueCare')
+@section('title', 'Lupa Password - HS Tax Admin')
 
 @section('content')
 <div class="card border-0 shadow-sm">

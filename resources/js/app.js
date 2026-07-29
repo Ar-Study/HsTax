@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const mobileToggle = document.getElementById('sidebarMobileToggle');
     const overlay = document.getElementById('sidebarOverlay');
 
+    // Restore sidebar state
+    if (sidebar && localStorage.getItem('sidebar-collapsed') === 'true') {
+        sidebar.classList.add('collapsed');
+    }
+
     if (toggleBtn) {
         toggleBtn.addEventListener('click', function () {
             sidebar.classList.toggle('collapsed');
@@ -16,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 icon.classList.toggle('bi-chevron-left');
                 icon.classList.toggle('bi-chevron-right');
             }
+            localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
         });
     }
 
