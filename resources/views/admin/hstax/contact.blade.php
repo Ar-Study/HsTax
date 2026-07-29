@@ -14,6 +14,10 @@
         <div class="alert alert-success alert-dismissible fade show shadow-sm"> {{ session('success') }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div>
     @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger"><ul class="mb-0">@foreach ($errors->all() as $e) <li>{{ $e }}</li> @endforeach</ul></div>
+    @endif
+
     <div class="card">
         <div class="card-body p-4">
             <form method="POST" action="{{ route('admin.cms.update-contact') }}">
@@ -21,44 +25,44 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="form-label fw-medium">Email <span class="text-danger">*</span></label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', config('hstax.contact.email')) }}" required>
+                        <input type="email" name="email" class="form-control" value="{{ old('email', $settings['contact.email'] ?? config('hstax.contact.email')) }}" required>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label fw-medium">No. Telepon <span class="text-danger">*</span></label>
-                        <input type="text" name="phone" class="form-control" value="{{ old('phone', config('hstax.contact.phone')) }}" required>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone', $settings['contact.phone'] ?? config('hstax.contact.phone')) }}" required>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label fw-medium">Telepon (Formatted)</label>
-                        <input type="text" name="phone_formatted" class="form-control" value="{{ old('phone_formatted', config('hstax.contact.phone_formatted')) }}">
+                        <input type="text" name="phone_formatted" class="form-control" value="{{ old('phone_formatted', $settings['contact.phone_formatted'] ?? config('hstax.contact.phone_formatted')) }}">
                     </div>
                     <div class="col-12">
                         <label class="form-label fw-medium">Alamat Lengkap</label>
-                        <textarea name="address" class="form-control" rows="2">{{ old('address', config('hstax.contact.address')) }}</textarea>
+                        <textarea name="address" class="form-control" rows="2">{{ old('address', $settings['contact.address'] ?? config('hstax.contact.address')) }}</textarea>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-medium">Alamat (Pendek)</label>
-                        <input type="text" name="address_short" class="form-control" value="{{ old('address_short', config('hstax.contact.address_short')) }}">
+                        <input type="text" name="address_short" class="form-control" value="{{ old('address_short', $settings['contact.address_short'] ?? config('hstax.contact.address_short')) }}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-medium">Jam Kerja</label>
-                        <input type="text" name="working_hours" class="form-control" value="{{ old('working_hours', config('hstax.contact.working_hours')) }}">
+                        <input type="text" name="working_hours" class="form-control" value="{{ old('working_hours', $settings['contact.working_hours'] ?? config('hstax.contact.working_hours')) }}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-medium">Maps URL</label>
-                        <input type="text" name="maps_url" class="form-control" value="{{ old('maps_url', config('hstax.contact.maps_url')) }}">
+                        <input type="text" name="maps_url" class="form-control" value="{{ old('maps_url', $settings['contact.maps_url'] ?? config('hstax.contact.maps_url')) }}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-medium">Maps Query</label>
-                        <input type="text" name="maps_q" class="form-control" value="{{ old('maps_q', config('hstax.contact.maps_q')) }}">
+                        <input type="text" name="maps_q" class="form-control" value="{{ old('maps_q', $settings['contact.maps_q'] ?? config('hstax.contact.maps_q')) }}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-medium">No. WhatsApp <span class="text-danger">*</span></label>
-                        <input type="text" name="wa_number" class="form-control" value="{{ old('wa_number', config('hstax.whatsapp.number')) }}" required>
+                        <input type="text" name="wa_number" class="form-control" value="{{ old('wa_number', $settings['whatsapp.number'] ?? config('hstax.whatsapp.number')) }}" required>
                         <small class="text-muted">Format: 628xxxxx (tanpa + atau spasi)</small>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-medium">WhatsApp Text</label>
-                        <input type="text" name="wa_text" class="form-control" value="{{ old('wa_text', config('hstax.whatsapp.text')) }}">
+                        <input type="text" name="wa_text" class="form-control" value="{{ old('wa_text', $settings['whatsapp.text'] ?? config('hstax.whatsapp.text')) }}">
                         <small class="text-muted">URL-encoded text untuk tombol WhatsApp</small>
                     </div>
                     <div class="col-12">

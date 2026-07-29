@@ -31,7 +31,7 @@ class TestimonialController extends Controller
         ]);
 
         $data['sort_order'] = HstaxTestimonial::max('sort_order') + 1;
-        $data['is_approved'] = $request->has('is_active');
+        $data['is_approved'] = $request->boolean('is_active');
 
         HstaxTestimonial::create($data);
 
@@ -54,7 +54,7 @@ class TestimonialController extends Controller
             'is_active' => 'nullable|boolean',
         ]);
 
-        $data['is_approved'] = $request->has('is_active');
+        $data['is_approved'] = $request->boolean('is_active');
 
         $testimonial->update($data);
 

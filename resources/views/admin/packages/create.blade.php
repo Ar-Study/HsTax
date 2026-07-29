@@ -46,7 +46,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-check">
-                            <input type="checkbox" name="is_popular" class="form-check-input" id="is_popular">
+                            <input type="hidden" name="is_popular" value="0">
+                            <input type="checkbox" name="is_popular" class="form-check-input" id="is_popular" value="1">
                             <label class="form-check-label fw-medium" for="is_popular">Tandai sebagai paket populer</label>
                         </div>
                     </div>

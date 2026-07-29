@@ -42,7 +42,8 @@
                     </div>
                     <div class="col-12">
                         <div class="form-check">
-                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active" {{ $testimonial->is_approved ? 'checked' : '' }}>
+                            <input type="hidden" name="is_active" value="0">
+                            <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ $testimonial->is_approved ? 'checked' : '' }}>
                             <label class="form-check-label fw-medium" for="is_active">Aktif (tampilkan di halaman depan)</label>
                         </div>
                     </div>

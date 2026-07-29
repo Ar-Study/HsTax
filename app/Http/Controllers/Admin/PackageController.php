@@ -33,7 +33,7 @@ class PackageController extends Controller
 
         $data['features'] = $data['features'] ? array_map('trim', explode("\n", $data['features'])) : [];
         $data['sort_order'] = HstaxPackage::max('sort_order') + 1;
-        $data['is_popular'] = $request->has('is_popular');
+        $data['is_popular'] = $request->boolean('is_popular');
 
         HstaxPackage::create($data);
 
@@ -59,7 +59,7 @@ class PackageController extends Controller
         ]);
 
         $data['features'] = $data['features'] ? array_map('trim', explode("\n", $data['features'])) : [];
-        $data['is_popular'] = $request->has('is_popular');
+        $data['is_popular'] = $request->boolean('is_popular');
 
         $package->update($data);
 

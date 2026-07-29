@@ -18,7 +18,8 @@ class HstaxController extends Controller
 
     public function company()
     {
-        return view('admin.hstax.company');
+        $settings = HstaxSetting::where('group', 'company')->pluck('value', 'key');
+        return view('admin.hstax.company', compact('settings'));
     }
 
     public function updateCompany(Request $request)
@@ -56,7 +57,14 @@ class HstaxController extends Controller
 
     public function contact()
     {
-        return view('admin.hstax.contact');
+        $settings = HstaxSetting::whereIn('key', [
+            'contact.email', 'contact.phone', 'contact.phone_formatted',
+            'contact.address', 'contact.address_short', 'contact.maps_url',
+            'contact.maps_q', 'contact.working_hours',
+            'whatsapp.number', 'whatsapp.text',
+        ])->pluck('value', 'key');
+
+        return view('admin.hstax.contact', compact('settings'));
     }
 
     public function updateContact(Request $request)
@@ -124,162 +132,6 @@ class HstaxController extends Controller
         HstaxSetting::updateOrCreate(['key' => 'social'], ['value' => json_encode($social), 'group' => 'social']);
 
         return redirect()->route('admin.cms.social')->with('success', 'Sosial media berhasil diperbarui.');
-    }
-
-    public function packages()
-    {
-        $packages = HstaxPackage::orderBy('sort_order')->get();
-        return view('admin.hstax.packages', compact('packages'));
-    }
-
-    public function storePackage(Request $request)
-    {
-        $data = $request->validate([
-            'icon' => 'nullable|string|max:50',
-            'name' => 'required|string|max:255',
-            'desc' => 'nullable|string',
-            'price' => 'required|string|max:100',
-            'period' => 'nullable|string|max:100',
-            'features' => 'nullable|string',
-            'is_popular' => 'nullable|boolean',
-        ]);
-
-        $data['features'] = $data['features'] ? array_map('trim', explode("\n", $data['features'])) : [];
-        $data['sort_order'] = HstaxPackage::max('sort_order') + 1;
-        $data['is_popular'] = $request->has('is_popular');
-
-        HstaxPackage::create($data);
-
-        return redirect()->route('admin.hstax.packages')->with('success', 'Paket berhasil ditambahkan.');
-    }
-
-    public function editPackage(HstaxPackage $package)
-    {
-        return view('admin.hstax.package-edit', compact('package'));
-    }
-
-    public function updatePackage(Request $request, HstaxPackage $package)
-    {
-        $data = $request->validate([
-            'icon' => 'nullable|string|max:50',
-            'name' => 'required|string|max:255',
-            'desc' => 'nullable|string',
-            'price' => 'required|string|max:100',
-            'period' => 'nullable|string|max:100',
-            'features' => 'nullable|string',
-            'is_popular' => 'nullable|boolean',
-            'sort_order' => 'nullable|integer',
-        ]);
-
-        $data['features'] = $data['features'] ? array_map('trim', explode("\n", $data['features'])) : [];
-        $data['is_popular'] = $request->has('is_popular');
-
-        $package->update($data);
-
-        return redirect()->route('admin.hstax.packages')->with('success', 'Paket berhasil diperbarui.');
-    }
-
-    public function destroyPackage(HstaxPackage $package)
-    {
-        $package->delete();
-        return redirect()->route('admin.hstax.packages')->with('success', 'Paket berhasil dihapus.');
-    }
-
-    public function testimonials()
-    {
-        $testimonials = HstaxTestimonial::orderBy('sort_order')->get();
-        return view('admin.hstax.testimonials', compact('testimonials'));
-    }
-
-    public function storeTestimonial(Request $request)
-    {
-        $data = $request->validate([
-            'stars' => 'required|integer|min:1|max:5',
-            'text' => 'required|string',
-            'initial' => 'nullable|string|max:10',
-            'name' => 'required|string|max:255',
-            'role' => 'nullable|string|max:255',
-            'is_approved' => 'nullable|boolean',
-        ]);
-
-        $data['sort_order'] = HstaxTestimonial::max('sort_order') + 1;
-        $data['is_approved'] = $request->has('is_approved');
-
-        HstaxTestimonial::create($data);
-
-        return redirect()->route('admin.hstax.testimonials')->with('success', 'Testimoni berhasil ditambahkan.');
-    }
-
-    public function editTestimonial(HstaxTestimonial $testimonial)
-    {
-        return view('admin.hstax.testimonial-edit', compact('testimonial'));
-    }
-
-    public function updateTestimonial(Request $request, HstaxTestimonial $testimonial)
-    {
-        $data = $request->validate([
-            'stars' => 'required|integer|min:1|max:5',
-            'text' => 'required|string',
-            'initial' => 'nullable|string|max:10',
-            'name' => 'required|string|max:255',
-            'role' => 'nullable|string|max:255',
-            'is_approved' => 'nullable|boolean',
-        ]);
-
-        $data['is_approved'] = $request->has('is_approved');
-
-        $testimonial->update($data);
-
-        return redirect()->route('admin.hstax.testimonials')->with('success', 'Testimoni berhasil diperbarui.');
-    }
-
-    public function destroyTestimonial(HstaxTestimonial $testimonial)
-    {
-        $testimonial->delete();
-        return redirect()->route('admin.hstax.testimonials')->with('success', 'Testimoni berhasil dihapus.');
-    }
-
-    public function faqs()
-    {
-        $faqs = HstaxFaq::orderBy('sort_order')->get();
-        return view('admin.hstax.faqs', compact('faqs'));
-    }
-
-    public function storeFaq(Request $request)
-    {
-        $data = $request->validate([
-            'question' => 'required|string|max:500',
-            'answer' => 'required|string',
-        ]);
-
-        $data['sort_order'] = HstaxFaq::max('sort_order') + 1;
-
-        HstaxFaq::create($data);
-
-        return redirect()->route('admin.hstax.faqs')->with('success', 'FAQ berhasil ditambahkan.');
-    }
-
-    public function editFaq(HstaxFaq $faq)
-    {
-        return view('admin.hstax.faq-edit', compact('faq'));
-    }
-
-    public function updateFaq(Request $request, HstaxFaq $faq)
-    {
-        $data = $request->validate([
-            'question' => 'required|string|max:500',
-            'answer' => 'required|string',
-        ]);
-
-        $faq->update($data);
-
-        return redirect()->route('admin.hstax.faqs')->with('success', 'FAQ berhasil diperbarui.');
-    }
-
-    public function destroyFaq(HstaxFaq $faq)
-    {
-        $faq->delete();
-        return redirect()->route('admin.hstax.faqs')->with('success', 'FAQ berhasil dihapus.');
     }
 
     public function services()

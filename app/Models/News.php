@@ -9,7 +9,7 @@ class News extends Model
 {
     protected $fillable = [
         'title', 'slug', 'content', 'excerpt', 'image',
-        'author', 'is_published', 'published_at',
+        'author', 'category', 'is_published', 'published_at',
     ];
 
     protected $casts = [

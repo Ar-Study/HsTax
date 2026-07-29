@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\HstaxController as AdminHstaxController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
@@ -9,9 +10,9 @@ use App\Http\Controllers\Admin\PackageController as AdminPackageController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Admin\FaqController as AdminFaqController;
 
-Route::get('/', function () {
-    return view('hstax.index');
-});
+Route::get('/', [FrontController::class, 'index']);
+Route::get('/berita/{slug}', [FrontController::class, 'showNews'])->name('news.detail');
+Route::post('/berita/{newsId}/komentar', [FrontController::class, 'storeComment'])->name('news.comment');
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {

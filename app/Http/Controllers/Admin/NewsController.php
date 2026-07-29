@@ -28,11 +28,12 @@ class NewsController extends Controller
             'excerpt' => 'nullable|string',
             'image' => 'nullable|string|max:255',
             'author' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:100',
             'is_published' => 'nullable|boolean',
         ]);
 
         $data['slug'] = Str::slug($data['title']);
-        $data['is_published'] = $request->has('is_published');
+        $data['is_published'] = $request->boolean('is_published');
         $data['published_at'] = $data['is_published'] ? now() : null;
 
         News::create($data);
@@ -53,11 +54,12 @@ class NewsController extends Controller
             'excerpt' => 'nullable|string',
             'image' => 'nullable|string|max:255',
             'author' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:100',
             'is_published' => 'nullable|boolean',
         ]);
 
         $data['slug'] = Str::slug($data['title']);
-        $data['is_published'] = $request->has('is_published');
+        $data['is_published'] = $request->boolean('is_published');
         $data['published_at'] = $data['is_published'] ? now() : null;
 
         $news->update($data);
